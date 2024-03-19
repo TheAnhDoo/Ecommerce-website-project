@@ -1,4 +1,9 @@
+from decimal import Decimal
+from store.models import Product
+
 #Sessions handling
+
+
 class Cart():
     def __init__(self, request):
         
@@ -16,7 +21,7 @@ class Cart():
 
 
         self.cart = cart
-        
+         
     def add(self, product, product_qty):
         
         product_id = str(product.id)
@@ -35,16 +40,39 @@ class Cart():
         pass
 
 
+    def __len__(self):
+        #.values()  method -> get the total number of items in the cart        
+        return sum(item['qty'] for item in self.cart.values())
+        # (item['qty'] for item in self.cart.values()) -> get all of the session data in the cart and add up total quantity of items in the card that we selected using sum() method
+
+    def __iter__(self):
+        
+        all_product_ids = self.cart.keys() # get all of the product IDs of our products in the cart -> the product ID is a part of the cart key
+
+        #select all of the products with the ID in the database, matches the IDs of what in our shopping cart
+        
+        products = Product.objects.filter(id__in=all_product_ids)
+        
+        #Copy an instance of the session data
+        cart = self.cart.copy()
+        
+        #Add some informations from the database for each matching product
+        for product in products:
+            
+            cart[str(product.id)]['product'] = product
+
+        
+        #caculating total price for each items in our shopping cart
+        for item in cart.values():
+            #convert price from string to decimal
+            item['price'] = Decimal(item['price'])
+            #caculating the total cost of a item in our shopping cart
+            item['total'] = item['price'] * item['qty']
+
+            yield item
 
 
-
-
-
-
-
-
-
-
-
-
-
+    #Caculate the total price in the shopping cart by looping through all item's total prices and calculate using sum()
+    def get_total(self):
+        #return sum(Decimal(item['price'] * item['qty']) for item in self.cart.values())
+        return sum(Decimal(item['total']) for item in self.cart.values())

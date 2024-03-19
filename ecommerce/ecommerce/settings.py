@@ -67,8 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'store.views.categories', #Updated
-                'cart.context_processors.cart',
+                'store.views.categories', #Updated, context_processor to make the categories available throughout the application
+                'cart.context_processors.cart', #Using context_processor to make the cart available throughout the application
                 
             ],
         },

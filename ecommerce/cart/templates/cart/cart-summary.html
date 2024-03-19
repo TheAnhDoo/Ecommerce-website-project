@@ -14,23 +14,30 @@
       <h1 class="h5"> Shopping cart </h1>
 
 	<hr>
-      
+  
+  {% for item in cart %} <!--Looping to check the items in the cart-->
+  
+  {% with product=item.product %} <!--Assign that item to the product-->
+
+
+
+
       <br>
 
       <div class="row mb-4 border product-item">
         
         <div class="col-md-3 col-lg-2 order-md-first bg-light">
         
-            <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src=""> <!-- Product image -->
+            <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{product.image.url}}"> <!-- Product image -->
         
         </div>
 
         
         <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
           
-          <a href="" class="text-decoration-none text-reset"> <!-- Product get absolute url -->
+          <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset"> <!-- Product get absolute url -->
           
-            <h1 class="h5 pt-2"> <!-- Product title --> </h1>
+            <h1 class="h5 pt-2"> {{ product.title }}</h1><!-- Product title --> 
           
           </a>
           
@@ -42,7 +49,7 @@
               
                 <div class="col-6"> Product </div>
               
-                <div class="col-6 text-end"><span class="h6 fw-bold">$ <!-- Product price --> </span></div>
+                <div class="col-6 text-end"><span class="h6 fw-bold">$ {{product.price}} / $ {{ item.total }} </span></div><!-- Product price and total item's price-->
             
               </div>
             
@@ -62,7 +69,7 @@
                   
                     <option selected>
                   
-                        {{item.qty}}
+                        {{item.qty}} <!--Check the selected items-->
                   
                     </option>
                   
@@ -104,18 +111,28 @@
         </div>
       
     </div>
-      
-
+    
+    {% endwith %}
+    
+    {% endfor %}
 
       <div class="col-12 text-end">
  
-        <div class="h6 fw-bold"> Sub total: $ <div id="total" class="d-inline-flex"> <!-- cart.get_total --> </div></div>
+        <div class="h6 fw-bold"> Sub total: $ <div id="total" class="d-inline-flex"> {{ cart.get_total }} </div></div> <!-- cart.get_total -->
  
       </div>
  
 
     </div>
-  
+    
+    <br>
+
+
+
+
+
+    
+  </br>
 
  </main>
 
