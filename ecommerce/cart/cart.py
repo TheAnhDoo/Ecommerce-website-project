@@ -37,7 +37,7 @@ class Cart():
         self.session.modified = True  
         
         
-        pass
+        
 
 
     def __len__(self):
@@ -74,5 +74,18 @@ class Cart():
 
     #Caculate the total price in the shopping cart by looping through all item's total prices and calculate using sum()
     def get_total(self):
-        #return sum(Decimal(item['price'] * item['qty']) for item in self.cart.values())
-        return sum(Decimal(item['total']) for item in self.cart.values())
+
+        return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+
+        #return sum(Decimal(item['total']) for item in self.cart.values())
+    
+    
+    def delete(self, product):
+        
+        product_id = str(product)
+        
+        if product_id in self.cart:
+            del self.cart[product_id]
+        
+        self.session.modified = True 
+        
