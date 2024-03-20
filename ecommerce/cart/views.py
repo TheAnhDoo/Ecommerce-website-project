@@ -60,4 +60,22 @@ def cart_delete(request):
     
 
 def cart_update(request):
-    pass
+    cart = Cart(request)
+    
+    if request.POST.get('action') == 'post':
+                
+        product_id = int(request.POST.get('product_id')) # collected the product_id which sent from the AJAX 
+        product_quantity = int(request.POST.get('product_quantity'))
+        
+        cart.update(product=product_id, qty=product_quantity)
+        
+        cart_quantity = cart.__len__() # get the latest quantity in the session
+
+        cart_total = cart.get_total() # get the new total price of the cart
+        
+        response = JsonResponse({'qty':cart_quantity, 'total':cart_total})   #Sending back the cart_qty and total        
+        
+        return response
+
+
+       

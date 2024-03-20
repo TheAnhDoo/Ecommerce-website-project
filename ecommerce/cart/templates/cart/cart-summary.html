@@ -65,7 +65,7 @@
 
                   &nbsp; 
                   
-                  <select id="">
+                  <select id="select{{product.id}}">  <!--Adding product.id to the select element so the quantities of the product can be assigned to a unique ID-->
                   
                     <option selected>
                   
@@ -85,11 +85,12 @@
                   
                   <br> <br>
 
-                  <button type="button" id="update-button"
+                  <button type="button" data-index="{{product.id}}" 
                     class="btn btn-primary btn-sm update-button">
                     Update
                   
-                  </button>
+                  </button>  <!--Using data-index="{{product.id}}"  allows us can update multiple products with the same id at a time
+                     not just 1 product or corrupts something by using value: id="{{product.id}}"-->
                   
                   &nbsp;
 
@@ -173,7 +174,40 @@
 
   })
 
+    // Update button
+    $(document).on('click', '.update-button', function(e){
 
+      e.preventDefault();
+      var theproductid = $(this).data('index');
+      $.ajax({
+
+          type: 'POST',
+          url: '{% url "cart-update" %}',
+          data: {
+              
+              product_id: $(this).data('index'),
+              product_quantity: $('#select' + theproductid + ' option:selected').text(), // Selecting the product quantity based on the ID we have assigned "theproductid"
+              csrfmiddlewaretoken: "{{csrf_token}}",
+              action: 'post',
+
+          },
+          
+          success: function(json){
+              //For testing 
+              //console.log(json);
+              
+              location.reload(); // automatically reload the location after a successful delete
+              document.getElementById('cart-qty').textContent = json.qty
+              document.getElementById('total').textContent = json.total
+          },
+          error: function(xhr, errmsg, err){
+
+          }
+      });
+
+
+
+  })
 
 
  </script>

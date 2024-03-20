@@ -54,7 +54,12 @@ class Cart():
         products = Product.objects.filter(id__in=all_product_ids)
         
         #Copy an instance of the session data
-        cart = self.cart.copy()
+        #cart = self.cart.copy()
+        #Alternatively, deep copy the session data
+        import copy
+        
+        cart =copy.deepcopy(self.cart)
+        
         
         #Add some informations from the database for each matching product
         for product in products:
@@ -89,3 +94,13 @@ class Cart():
         
         self.session.modified = True 
         
+        
+    def update(self, product, qty):
+        product_id =str(product)
+        
+        product_quantity = qty
+        
+        if product_id in self.cart:
+            self.cart[product_id]['qty'] = product_quantity #overwrite the quantity
+        
+        self.session.modified = True 
