@@ -34,3 +34,11 @@ def list_category(request, category_slug=None):
     products = Product.objects.filter(category=category) #check the product's foreign key with the actual searches category
     
     return render(request, 'store/list-category.html', {'category' : category, 'products': products}) 
+
+def all_category(request):
+    category = Category.objects.all()
+    
+    products = Product.objects.all()
+    return render(request,'store/all_category.html',{'category' : category, 'products': products}) 
+
+

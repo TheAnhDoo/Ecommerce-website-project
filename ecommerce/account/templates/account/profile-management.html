@@ -1,0 +1,73 @@
+{% include 'store/base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+
+
+    <style>
+
+        body {background-color: rgb(192, 192, 192);}
+
+
+
+    </style>
+
+<body>
+    <br>
+
+    <div class="container bg-white shadow-md p-5 form-layout">
+
+        <h3 class="text-center"> Update to your account </h3>
+
+        <hr>
+
+
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{user_form.username|as_crispy_field}}
+
+            <br> 
+
+
+            {{user_form.email|as_crispy_field}}
+
+
+
+            <br>
+
+            <button type="submit" class="btn btn-outline-primary  w-100 btn-block p2"> &nbsp; Update </button>
+        </form>
+
+
+
+
+    </div>
+    <br>
+    <div class="container bg-white shadow-md p-5 form-layout">
+
+        <h3 class="text-center"> Delete to your account </h3>
+        <hr>
+        <p> Proceed if you wish to delete your account. </p>
+
+        <a class="btn btn-outline-primary  w-100 btn-block p2 " type="button"  href="{% url 'delete-account' %}"> Delete account </a>
+    </div>
+
+
+
+
+</body>
+
+<br> <br>
+
+
+
+{% endblock %}

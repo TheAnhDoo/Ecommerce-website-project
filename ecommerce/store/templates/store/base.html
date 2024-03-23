@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 <html>
-
+    
 
     <head>
 
@@ -12,8 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-	  <title> TheAnhDoo-EcomStore </title>
-
+	  <title> TheAnhDooEssentials </title>
 
 
         <!-- CSS -->
@@ -22,6 +21,7 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 
         <!-- JavaScript -->
@@ -47,11 +47,11 @@
 
 
     <nav class="navbar navbar-expand-lg bg-primary justify-content-center">
-
+        
 
         <a class="navbar-brand main-heading text-white" href="{% url 'store' %}"> 
                 
-        &nbsp; &nbsp; TheAnhDoo 
+        &nbsp; &nbsp; TADEs
         
         </a>
 
@@ -87,7 +87,7 @@
 
                         <li>
                             
-                            <a class="dropdown-item" href="{% url 'store' %}"> All </a>
+                            <a class="dropdown-item" href="{% url 'all-category' %}"> All </a>
                         
                         </li>
                     
@@ -101,11 +101,14 @@
         
                     
                     </ul>
-
+                    
                 </li>
-
+                        
             </ul>
-
+            <form class="d-flex">
+                <input class="form-control me-sm-2" type="search" placeholder="Search" style='width:70em'>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+              </form>
         </div>
 
 
@@ -113,20 +116,43 @@
             
             <ul class="navbar-nav ms-auto">
 
+                {% if user.is_authenticated %}
+
 
                 <li class="nav-item">
             
-                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Register </a>
+                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'dashboard' %}"> Dashboard </a>
 
                 </li>
-
+                
+                {% else %}
 
                 <li class="nav-item">
 
-                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="/"> Login </a>
+                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'register' %}"> Register </a>
+
+                </li>
+                {% endif %}
+
+
+
+                {% if user.is_authenticated %}
+
+                <li class="nav-item">
+            
+                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'user-logout' %}"> Logout </a>
 
                 </li>
 
+                {% else %}
+
+                <li class="nav-item">
+            
+                    <a class="btn btn-alert navbar-btn text-white" type="button"  href="{% url 'my-login' %}"> Login </a>
+
+                </li>
+
+                {% endif %}
 
                 &nbsp; &nbsp; &nbsp;
 
